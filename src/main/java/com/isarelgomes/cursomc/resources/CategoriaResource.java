@@ -15,8 +15,10 @@ import com.isarelgomes.cursomc.domain.Categoria;
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
 	
-	//atribuindo o verbo http, no saco para get, poderia ser post, delete. etc
+	//atribuindo o verbo http para get, poderia ser post, delete. etc
 	@RequestMapping(method=RequestMethod.GET)
+	
+	//o list faz a conversão automatica de algum dado para formato json
 	public List<Categoria> listar() {
 		
 		Categoria cat1 = new Categoria(1,  "Informática");
