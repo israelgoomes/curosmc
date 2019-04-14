@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,8 @@ public class Produto implements Serializable{
 	private Double preco;
 	
 	//Criando um mapeamento, que é uma tabela do banco de dados que faz a ponte entre as duas tabelas que terão conexão
+	//JsonBackReference faz o seguinte: do outro lado da associação já foram buscados os objetos, então ele não busca mais.
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", //DEFININDO O NOME DA TABELA INTERMEDIARIA ONDE FICA AS PK'S E FK'S
 	joinColumns = @JoinColumn(name = "produto_id"),	//DEFININDO O NOME DO CAMPOR DA  TABELA CORRESPONDENTE AO CÓDIGO DO PRODUTODO(CHAVE ESTRANGEIRA	

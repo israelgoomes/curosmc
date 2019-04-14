@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.isarelgomes.cursomc.dao.CategoriaDao;
 import com.isarelgomes.cursomc.domain.Categoria;
+import com.isarelgomes.cursomc.services.execptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -19,8 +20,9 @@ public class CategoriaService {
 	public Categoria buscar(Integer id) {
 		//criando um objeto para fazer a busca no banco de dados através do id
 		Optional<Categoria> obj = repo.findById(id);
-		//retornando o objeto ou null caso vazio
-				return obj.orElse(null);
+		//retornando o objeto ou se não existir, uma exceção
+				return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! id: " + id + ", Tipo: "
+						+ Categoria.class.getName()));
 		
 		
 	}

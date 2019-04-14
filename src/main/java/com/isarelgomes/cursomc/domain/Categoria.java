@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 //declarando que a classe será uma identidade do jpa
 @Entity
 //a interface serializable diz que os objetos da classe poderão ser convertidos para um sequência de bytes, para poderem ser gravados em arquivos, trafegar em redes, etc.
@@ -37,10 +39,14 @@ public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
 	
 	/*Uma categoria terá varios produtos, siginifica que a categoria terá dentro dela uma lista d eprodutos
 	 (produtos é o nome dado no diagrama (Produto é a classe)	*/
+	
+	//fazendo uma referencia json. que deve ser feita do lado que deseja vir os objetos associados
+	@JsonManagedReference
 	@ManyToMany(mappedBy="categorias") // fazendo referência ao mapeamento já construido em produto, "categorias" vem da lista criando em produtos.
 	private List<Produto> produtos = new ArrayList<>();
 	/*-------------------FIM ATRIBUTOS-----------------------------*/
