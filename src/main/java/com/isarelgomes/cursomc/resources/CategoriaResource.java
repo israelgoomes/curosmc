@@ -25,6 +25,10 @@ public class CategoriaResource {
 	//atribuindo o verbo http para get, poderia ser post, delete. etc
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	//o list faz a conversão automatica de algum dado para formato json
+	
+	/*ResponseEntity: significa representar toda a resposta HTTP. Você pode controlar qualquer coisa que aconteça: código de status, cabeçalhos e corpo.*/
+	/*  o @PathVariable é utilizado quando o valor da variável é passada diretamente na URL, 
+	 * mas não como um parametro que você passa após o sinal de interrogação (?) mas sim quando o valor faz parte da url.*/
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		//acessando o serviço para buscar uma cetegotia com determinado id
 		Categoria obj = service.buscar(id);

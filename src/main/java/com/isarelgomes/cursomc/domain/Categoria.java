@@ -18,6 +18,8 @@ public class Categoria implements Serializable {
 	//criando um construtor vazio
 	public Categoria() {
 		
+		
+	/* HashCOde e equals*/	
 	}
 	@Override
 	public int hashCode() {
@@ -42,6 +44,7 @@ public class Categoria implements Serializable {
 			return false;
 		return true;
 	}
+	/*FIM HASHCODE E EQUALS*/
 	//criando um construtor parametrizado
 	public Categoria(Integer id, String nome) {
 		super();
