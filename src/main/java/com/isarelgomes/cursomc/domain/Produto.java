@@ -8,28 +8,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-//declarando que a classe será uma identidade do jpa
 @Entity
-//a interface serializable diz que os objetos da classe poderão ser convertidos para um sequência de bytes, para poderem ser gravados em arquivos, trafegar em redes, etc.
-
-public class Categoria implements Serializable {
+public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	
-	
 	/*--------------------CONSTRUTORES-------------------------------------*/
-	//criando um construtor vazio
-	public Categoria() {
-	}
-	//criando um construtor parametrizado
-	public Categoria(Integer id, String nome) {
+	
+	public Produto() {}
+	
+	public Produto(Integer id, String nome, Double preco) {
+		//super() invoca o constructor, sem argumentos, da classe derivada (pai).
 		super();
 		this.id = id;
 		this.nome = nome;
-	}	
+		this.preco = preco;
+	}
 	/*----------------------------FIM CONSTRUTORES---------------------------------*/
+
 	
 	
 	
@@ -38,14 +37,17 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	private Double preco;
 	
-	/*Uma categoria terá varios produtos, siginifica que a categoria terá dentro dela uma lista d eprodutos
-	 (produtos é o nome dado no diagrama (Produto é a classe)	*/
-	@ManyToMany(mappedBy="categorias") // fazendo referência ao mapeamento já construido em produto, "categorias" vem da lista criando em produtos.
-	private List<Produto> produtos = new ArrayList<>();
+	//Criando um mapeamento, que é uma tabela do banco de dados que faz a ponte entre as duas tabelas que terão conexão
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA", //DEFININDO O NOME DA TABELA INTERMEDIARIA ONDE FICA AS PK'S E FK'S
+	joinColumns = @JoinColumn(name = "produto_id"),	//DEFININDO O NOME DO CAMPOR DA  TABELA CORRESPONDENTE AO CÓDIGO DO PRODUTODO(CHAVE ESTRANGEIRA	
+	inverseJoinColumns = @JoinColumn(name = "categoria_id") //DEFININDO A OUTRA CHAVE ESTRANGEIRA QUE É A CATEGORIA.
+			)
+	private List<Categoria> categorias = new ArrayList<>();
 	/*-------------------FIM ATRIBUTOS-----------------------------*/
-	
-	
+
 	
 	
 	/*=-------MÉTODOS------------*/
@@ -59,19 +61,29 @@ public class Categoria implements Serializable {
 	public String getNome() {
 		return nome;
 	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
-	public List<Produto> getProdutos(){
-		return produtos;
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 	
-	public void setProdutos(List<Produto> produtos){
-		this.produtos = produtos;
+	public List<Categoria> getCategorias(){
+		return categorias;
 	}
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+	
+	
+	
 	/*------------------FIM MÉTODOS -----------------------------*/
-
+	
 	
 
 	/*---------------- HashCOde e equals------------------------*/	
@@ -82,6 +94,7 @@ public class Categoria implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -90,7 +103,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Produto other = (Produto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -100,10 +113,9 @@ public class Categoria implements Serializable {
 	}
 	/*------------------FIM HASHCODE E EQUALS--------------------------*/
 
+	
+	
+	
+	
+
 }
-	
-	
-
-	
-
-
