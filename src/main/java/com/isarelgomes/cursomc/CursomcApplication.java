@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.isarelgomes.cursomc.dao.CategoriaDao;
+import com.isarelgomes.cursomc.dao.CidadeDAO;
+import com.isarelgomes.cursomc.dao.EstadoDAO;
 import com.isarelgomes.cursomc.dao.ProdutoDao;
 import com.isarelgomes.cursomc.domain.Categoria;
+import com.isarelgomes.cursomc.domain.Cidade;
+import com.isarelgomes.cursomc.domain.Estado;
 import com.isarelgomes.cursomc.domain.Produto;
 
 
@@ -22,6 +26,12 @@ public class CursomcApplication implements CommandLineRunner{
 	private CategoriaDao categoriaDao;
 	@Autowired
 	private ProdutoDao produtoDao;
+	@Autowired
+	private EstadoDAO estadoDao;
+	@Autowired
+	private CidadeDAO cidadeDao;
+	
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -50,6 +60,22 @@ public class CursomcApplication implements CommandLineRunner{
 		categoriaDao.saveAll(Arrays.asList(cat1, cat2));
 		produtoDao.saveAll(Arrays.asList(p1, p2, p3));
 		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, " Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		//dizendo quais cidades são associados com determinado estado
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		cidadeDao.saveAll(Arrays.asList(c1, c2, c3));
+		estadoDao.saveAll(Arrays.asList(est1, est2));
+		
 	}
+	
+	
 
 }

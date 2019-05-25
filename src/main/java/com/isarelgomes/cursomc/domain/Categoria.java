@@ -46,7 +46,7 @@ public class Categoria implements Serializable {
 	
 	//fazendo uma referencia json. que deve ser feita do lado que deseja vir os objetos associados
 	@JsonManagedReference
-	@ManyToMany(mappedBy="categorias") // fazendo referência ao mapeamento já construido em produto, "categorias" vem da lista criando em produtos.
+	@ManyToMany(mappedBy="categorias") // fazendo referência ao mapeamento já construido em produto, "categorias" vem da lista criado em produtos.
 	private List<Produto> produtos = new ArrayList<>();
 	/*-------------------FIM ATRIBUTOS-----------------------------*/
 	
