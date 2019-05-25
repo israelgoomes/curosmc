@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 //declarando que a classe será uma identidade do jpa
 @Entity
 //a interface serializable diz que os objetos da classe poderão ser convertidos para um sequência de bytes, para poderem ser gravados em arquivos, trafegar em redes, etc.
