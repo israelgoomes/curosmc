@@ -9,12 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.isarelgomes.cursomc.dao.CategoriaDao;
 import com.isarelgomes.cursomc.dao.CidadeDAO;
+import com.isarelgomes.cursomc.dao.ClienteDAO;
+import com.isarelgomes.cursomc.dao.EnderecoDAO;
 import com.isarelgomes.cursomc.dao.EstadoDAO;
 import com.isarelgomes.cursomc.dao.ProdutoDao;
 import com.isarelgomes.cursomc.domain.Categoria;
 import com.isarelgomes.cursomc.domain.Cidade;
+import com.isarelgomes.cursomc.domain.Cliente;
+import com.isarelgomes.cursomc.domain.Endereco;
 import com.isarelgomes.cursomc.domain.Estado;
 import com.isarelgomes.cursomc.domain.Produto;
+import com.isarelgomes.cursomc.domain.enums.TipoCliente;
 
 
 //a interface CommandLinerRuner permite implementar um método auxiliar(o run logo abaixo) para executar alguma ação quando a aplicação iniciar
@@ -30,6 +35,12 @@ public class CursomcApplication implements CommandLineRunner{
 	private EstadoDAO estadoDao;
 	@Autowired
 	private CidadeDAO cidadeDao;
+	@Autowired
+	private ClienteDAO clienteDao;
+	@Autowired
+	private EnderecoDAO enderecoDao;
+	
+	 
 	
 	
 	
@@ -74,6 +85,18 @@ public class CursomcApplication implements CommandLineRunner{
 		cidadeDao.saveAll(Arrays.asList(c1, c2, c3));
 		estadoDao.saveAll(Arrays.asList(est1, est2));
 		
+		//Cliente cli1 = new Cliente(null, "Israel gomes", "rael_goomes@hotmail.com", "45628523801", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteDao.saveAll(Arrays.asList(cli1));
+		enderecoDao.saveAll(Arrays.asList(e1, e2));
 	}
 	
 	
