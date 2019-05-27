@@ -1,6 +1,8 @@
 package com.isarelgomes.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.mapping.Array;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -47,6 +51,9 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
+	
+	private Pedido pedidos;
+	
 	
 	public Integer getId() {
 		return id;
@@ -111,6 +118,15 @@ public class Endereco implements Serializable {
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
+	
+	public Pedido getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Pedido pedidos) {
+		this.pedidos = pedidos;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -136,6 +152,9 @@ public class Endereco implements Serializable {
 			return false;
 		return true;
 	}
+
+	
+
 
 	
 	

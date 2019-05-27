@@ -1,5 +1,6 @@
 package com.isarelgomes.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,23 @@ import com.isarelgomes.cursomc.dao.CidadeDAO;
 import com.isarelgomes.cursomc.dao.ClienteDAO;
 import com.isarelgomes.cursomc.dao.EnderecoDAO;
 import com.isarelgomes.cursomc.dao.EstadoDAO;
+import com.isarelgomes.cursomc.dao.ItemPedidoDAO;
+import com.isarelgomes.cursomc.dao.PagamentoDAO;
+import com.isarelgomes.cursomc.dao.PedidoDAO;
 import com.isarelgomes.cursomc.dao.ProdutoDao;
 import com.isarelgomes.cursomc.domain.Categoria;
 import com.isarelgomes.cursomc.domain.Cidade;
 import com.isarelgomes.cursomc.domain.Cliente;
 import com.isarelgomes.cursomc.domain.Endereco;
 import com.isarelgomes.cursomc.domain.Estado;
+import com.isarelgomes.cursomc.domain.ItemPedido;
+import com.isarelgomes.cursomc.domain.ItemPedidoPk;
+import com.isarelgomes.cursomc.domain.Pagamento;
+import com.isarelgomes.cursomc.domain.PagamentoComBoleto;
+import com.isarelgomes.cursomc.domain.PagamentoComCartao;
+import com.isarelgomes.cursomc.domain.Pedido;
 import com.isarelgomes.cursomc.domain.Produto;
+import com.isarelgomes.cursomc.domain.enums.EstadoPagamento;
 import com.isarelgomes.cursomc.domain.enums.TipoCliente;
 
 
@@ -39,6 +50,12 @@ public class CursomcApplication implements CommandLineRunner{
 	private ClienteDAO clienteDao;
 	@Autowired
 	private EnderecoDAO enderecoDao;
+	@Autowired
+	private PedidoDAO pedidoDao;
+	@Autowired
+	private PagamentoDAO pagamentoDao;
+	@Autowired
+	private ItemPedidoDAO itemPedidoDao;
 	
 	 
 	
@@ -97,6 +114,38 @@ public class CursomcApplication implements CommandLineRunner{
 		
 		clienteDao.saveAll(Arrays.asList(cli1));
 		enderecoDao.saveAll(Arrays.asList(e1, e2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+
+		//fazendo o pagamento separado do construtor, pois foi necessário primeiro instanciar o pagamento
+		//para depois associa-lo ao pedido.
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2019 00:00"), null);
+		
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoDao.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoDao.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 1, 0.00, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1,  p3, 2, 0.00, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 1, 100.00, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoDao.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 	
 	
