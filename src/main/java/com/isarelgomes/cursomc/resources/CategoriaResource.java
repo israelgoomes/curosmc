@@ -32,15 +32,15 @@ public class CategoriaResource {
 	/*ResponseEntity: significa representar toda a resposta HTTP. Você pode controlar qualquer coisa que aconteça: código de status, cabeçalhos e corpo.*/
 	/*  o @PathVariable é utilizado quando o valor da variável é passada diretamente na URL, 
 	 * mas não como um parametro que você passa após o sinal de interrogação (?) mas sim quando o valor faz parte da url.*/
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		//acessando o serviço para buscar uma cetegotia com determinado id
-		Categoria obj = service.buscar(id);
+		Categoria obj = service.find(id);
 				//retornando se a resposta ocorreu tudo bem
 		//o método ok diz que a operação ocorreu com sucesso
 		//
 				return ResponseEntity.ok().body(obj);
 	}
-	
+	//inserindo
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = service.insert(obj);
@@ -48,4 +48,19 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+		
+	}
+	
 }
