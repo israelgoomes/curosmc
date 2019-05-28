@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -22,6 +25,8 @@ public class Pedido implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
 	//usando o cascade para não gerar erro de entidade transiente, e o mappedBy irá relacionar que o id de pedidos é o mesmo do pagamento

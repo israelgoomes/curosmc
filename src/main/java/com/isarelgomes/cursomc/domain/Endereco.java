@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.mapping.Array;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable {
@@ -52,6 +53,7 @@ public class Endereco implements Serializable {
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
 	
+	@JsonIgnore
 	private Pedido pedidos;
 	
 	
