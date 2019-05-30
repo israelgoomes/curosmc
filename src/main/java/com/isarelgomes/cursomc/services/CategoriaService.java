@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.isarelgomes.cursomc.dao.CategoriaDao;
@@ -56,5 +59,13 @@ public class CategoriaService {
 		return repo.findAll();
 	}
 		
+	//criando uma função para retornar apenas as categorias que quiser, na find page é informado a página q quer, linerPerPage é quantas linhas de página vc quer
+	//@SuppressWarnings("deprecation")
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		//o pagerequest prepara as infromações para a consulta
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+		
+	}
 	
 }
